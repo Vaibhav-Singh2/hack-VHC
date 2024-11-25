@@ -10,20 +10,16 @@ import {
 } from "agora-rtc-react";
 import { useState } from "react";
 
-import "./styles.css";
-import logo from "./agora-logo.svg";
+import "./video-call-styles.css";
+// import logo from "./agora-logo.svg";
 
 export const VideoCall = () => {
   const [calling, setCalling] = useState(false);
   const isConnected = useIsConnected();
-  const [appId, setAppId] = useState("x");
+  const [appId, setAppId] = useState(import.meta.env.VITE_AGORA_APP_ID);
   const [channel, setChannel] = useState("");
-  const [token, setToken] = useState("");
 
-  useJoin(
-    { appid: appId, channel: channel, token: token ? token : null },
-    calling
-  );
+  useJoin({ appid: appId, channel: channel, token: null }, calling);
   //local user
   const [micOn, setMic] = useState(true);
   const [cameraOn, setCamera] = useState(true);
@@ -62,7 +58,7 @@ export const VideoCall = () => {
           </div>
         ) : (
           <div className="join-room">
-            <img alt="agora-logo" className="logo" src={logo} />
+            {/* <img alt="agora-logo" className="logo" src={logo} /> */}
             <input
               onChange={(e) => setAppId(e.target.value)}
               placeholder="<Your app ID>"
@@ -72,11 +68,6 @@ export const VideoCall = () => {
               onChange={(e) => setChannel(e.target.value)}
               placeholder="<Your channel Name>"
               value={channel}
-            />
-            <input
-              onChange={(e) => setToken(e.target.value)}
-              placeholder="<Your token>"
-              value={token}
             />
 
             <button
